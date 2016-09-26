@@ -45,9 +45,11 @@ public class PlayerController : NetworkBehaviour
 		var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f;
 
 		transform.Rotate(0, Input.GetAxis("Mouse X") * Time.deltaTime*150, 0);
-		cam.transform.Rotate(Input.GetAxis("Mouse Y") * -1 *Time.deltaTime*150, 0, 0);
+		cam.transform.Rotate(Input.GetAxis("Mouse Y") * -1 *Time.deltaTime*150, 
+			0, 0);
 		rb.rotation = Quaternion.Euler(0, rb.rotation.eulerAngles.y, 0);
 		transform.Translate(x*mul, 0, z*mul);
+
 		if (Input.GetMouseButton(0) && rate + lastShot < Time.time)
 		{
 			lastShot = Time.time;
