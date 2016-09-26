@@ -7,7 +7,10 @@ public class Health : NetworkBehaviour
 	public int currentHealth = maxHealth;
 	public Texture t;
 	public Texture cross;
-	public GameObject[] spawn;
+	private NetworkStartPosition[] spawn;
+	public void Start(){
+		spawn = FindObjectsOfType<NetworkStartPosition> ();
+	}
 	public void TakeDamage(int amount)
 	{
 		currentHealth -= amount;

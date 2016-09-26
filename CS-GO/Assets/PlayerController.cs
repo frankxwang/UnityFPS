@@ -74,7 +74,7 @@ public class PlayerController : NetworkBehaviour
 			bulletSpawn.rotation);
 
 		// Add velocity to the bullet
-		bullet.GetComponent<Rigidbody>().velocity = cam.transform.forward * 600;
+		bullet.GetComponent<Rigidbody>().velocity = camera.transform.forward * 600;
 
 		NetworkServer.Spawn (bullet);
 
@@ -82,13 +82,13 @@ public class PlayerController : NetworkBehaviour
 		Destroy(bullet, 2.0f);
 
 		RaycastHit hit;
-		if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 9999999)){
-			var health = hit.rigidbody.GetComponent<Health>();
+		if(Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 999)){
+			var health = hit.transform.gameObject.GetComponent<Health>();
 			if (health  != null)
 			{
 				//hit particles
 				GameObject particles = (GameObject)Instantiate(hitParticles, hit.point, Quaternion.identity);
-				particles.GetComponent<ParticleSystem> ().Emit(10);
+//				particles.GetComponent<ParticleSystem> ().Emit(10);
 				NetworkServer.Spawn (particles);
 				health.TakeDamage(10);
 			}
@@ -99,7 +99,6 @@ public class PlayerController : NetworkBehaviour
 		RaycastHit hit;
 		if(Physics.Raycast(transform.position, -Vector3.up, out hit)){
 			Debug.DrawLine (transform.position, hit.point, Color.cyan);
-			print (hit.distance);
 			if(hit.distance < 1.5 && hit.distance > 0){
 				return true;
 			}
