@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
-public class Health : NetworkBehaviour 
+public class Health : Photon.MonoBehaviour 
 {
 	public const int maxHealth = 100;
-	[SyncVar]
 	public int currentHealth = maxHealth;
 	public Texture t;
 	public Texture cross;
@@ -26,12 +25,9 @@ public class Health : NetworkBehaviour
 		GUI.Box (new Rect(0, 0, currentHealth/maxHealth * 200, 20), t);
 		GUI.Box (new Rect(0, 20, 200, 20), "Health: " + currentHealth);
 	}
-	[ClientRpc]
 	void RpcRespawn()
 	{
-		if (isLocalPlayer)
-		{
-			// move back to zero location
+		if(photonView.isMine){
 			transform.position = spawn[Random.Range(0, spawn.Length)].transform.position;
 		}
 	}

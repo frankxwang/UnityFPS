@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
-public class PlayerController : NetworkBehaviour
+public class PlayerController : Photon.MonoBehaviour
 {
 	public GameObject cam;
 	public GameObject camera;
@@ -14,7 +14,7 @@ public class PlayerController : NetworkBehaviour
 	void Start()
 	{
 		rb = GetComponent<Rigidbody> ();
-		if (!isLocalPlayer)
+		if (!photonView.isMine)
 		{
 			camera.SetActive(false);
 			return;
@@ -37,7 +37,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			mul = 2;
 		}
-		if (!isLocalPlayer)
+		if (!photonView.isMine)
 		{
 			return;
 		}
@@ -59,7 +59,6 @@ public class PlayerController : NetworkBehaviour
 			rb.AddForce(0, 250, 0);
 		}
 	}
-	[Command]
 	void CmdFire()
 	{
 		//smoke
