@@ -2,16 +2,24 @@
 using System.Collections;
 
 public class Bullet : MonoBehaviour {
-
+	Rigidbody rb;
+	void Start(){
+		rb = GetComponent<Rigidbody> ();
+		Destroy(gameObject, 2);
+	}
 	void OnCollisionEnter(Collision collision)
 	{
-//		var hit = collision.gameObject;
-//		var health = hit.GetComponent<Health>();
-//		if (health  != null)
-//		{
-//			health.TakeDamage(10);
-//		}
-
 		Destroy(gameObject);
+	}
+	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		if (stream.isWriting)
+		{
+			stream.SendNext(rb.velocity);
+		}
+		else
+		{
+			rb.velocity = (Vector3)stream.ReceiveNext();
+		}
 	}
 }

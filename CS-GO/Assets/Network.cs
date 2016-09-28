@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class Network : Photon.MonoBehaviour {
-	bool connected;
+	public GameObject player;
+	private bool connected;
 	void Start()
 	{
 		//connect to master
@@ -41,5 +42,9 @@ public class Network : Photon.MonoBehaviour {
 			}
 		}
 	}
-
+	void OnJoinedRoom()
+	{
+		// Spawn player
+		PhotonNetwork.Instantiate (player.name, Vector3.up * 5, Quaternion.identity, 0);
+	}
 }

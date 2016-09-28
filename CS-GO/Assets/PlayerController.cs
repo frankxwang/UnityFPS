@@ -11,6 +11,36 @@ public class PlayerController : Photon.MonoBehaviour
 	public float rate = 0.1f;
 	private float lastShot = 0;
 	private Rigidbody rb;
+	private float lastSynchronizationTime = 0f;
+	private float syncDelay = 0.1f;
+	private float syncTime = 0f;
+	private Vector3 syncStartPosition = Vector3.zero;
+	private Vector3 syncEndPosition = Vector3.zero;
+	private Quaternion syncStartRotation = Quaternion.identity;
+	private Quaternion syncEndRotation = Quaternion.identity;
+	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		if (stream.isWriting)
+		{
+			stream.SendNext(rb.position);
+			stream.SendNext(rb.rotation);
+		}
+		else
+		{
+			Vector3 pos = (Vector3)stream.ReceiveNext();
+			syncEndPosition = pos;
+			syncStartPosition = rb.position;
+
+			Quaternion rot = (Quaternion)stream.ReceiveNext();
+			syncEndRotation = rot;
+			syncStartRotation = rb.rotation;
+
+			syncTime = 0f;
+			syncDelay = Time.time - lastSynchronizationTime;
+			lastSynchronizationTime = Time.time;
+		}
+	}
+
 	void Start()
 	{
 		rb = GetComponent<Rigidbody> ();
@@ -39,6 +69,7 @@ public class PlayerController : Photon.MonoBehaviour
 		}
 		if (!photonView.isMine)
 		{
+			SmoothMove ();
 			return;
 		}
 		var x = Input.GetAxis("Horizontal") * Time.deltaTime * 3.0f;
@@ -59,6 +90,14 @@ public class PlayerController : Photon.MonoBehaviour
 			rb.AddForce(0, 250, 0);
 		}
 	}
+	private void SmoothMove()
+	{
+		syncTime += Time.deltaTime;
+//		rb.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
+//		rb.rotation = Quaternion.Lerp(syncStartRotation, syncEndRotation, syncTime / syncDelay);
+		rb.position = syncEndPosition;
+		rb.rotation = syncEndRotation;
+	}
 	void CmdFire()
 	{
 		//smoke
@@ -67,7 +106,7 @@ public class PlayerController : Photon.MonoBehaviour
 		foreach(ParticleSystem ps in psa){
 			ps.Emit(2);
 		}
-		NetworkServer.Spawn (smokeParticles);
+		PhotonNetwork.Instantiate (smoke.name, bulletSpawn.position, Quaternion.identity, 0);
 		// Create the Bullet from the Bullet Prefab
 		var bullet = (GameObject)Instantiate(
 			bulletPrefab,
@@ -77,7 +116,7 @@ public class PlayerController : Photon.MonoBehaviour
 		// Add velocity to the bullet
 		bullet.GetComponent<Rigidbody>().velocity = camera.transform.forward * 600;
 
-		NetworkServer.Spawn (bullet);
+		PhotonNetwork.Instantiate (bulletPrefab.name, bulletSpawn.position, bulletSpawn.rotation, 0);
 
 		// Destroy the bullet after 2 seconds
 		Destroy(bullet, 2.0f);
@@ -90,7 +129,7 @@ public class PlayerController : Photon.MonoBehaviour
 				//hit particles
 				GameObject particles = (GameObject)Instantiate(hitParticles, hit.point, Quaternion.identity);
 //				particles.GetComponent<ParticleSystem> ().Emit(10);
-				NetworkServer.Spawn (particles);
+				PhotonNetwork.Instantiate (hitParticles.name, hit.point, Quaternion.identity, 0);
 				health.TakeDamage(10);
 			}
 
