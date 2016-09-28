@@ -10,11 +10,9 @@ public class Health : Photon.MonoBehaviour
 	public void Start(){
 		spawn = GameObject.FindGameObjectsWithTag("Respawn");
 	}
+	[PunRPC]
 	public void TakeDamage(int amount)
 	{
-		photonView.RPC ("Damage", PhotonTargets.AllBuffered, amount);
-	}
-	public void Damage(int amount){
 		currentHealth -= amount;
 		if (currentHealth <= 0)
 		{
