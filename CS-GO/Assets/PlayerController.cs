@@ -18,6 +18,7 @@ public class PlayerController : Photon.MonoBehaviour
 	private Vector3 syncEndPosition = Vector3.zero;
 	private Quaternion syncStartRotation = Quaternion.identity;
 	private Quaternion syncEndRotation = Quaternion.identity;
+	private string team;
 	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 	{
 		if (stream.isWriting)
@@ -44,6 +45,7 @@ public class PlayerController : Photon.MonoBehaviour
 	void Start()
 	{
 		rb = GetComponent<Rigidbody> ();
+		team = gameObject.tag;
 		if (!photonView.isMine)
 		{
 			camera.SetActive(false);
@@ -124,7 +126,7 @@ public class PlayerController : Photon.MonoBehaviour
 		RaycastHit hit;
 		if(Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 999)){
 			var health = hit.transform.gameObject.GetComponent<Health>();
-			if (health  != null)
+			if (health  != null && health.gameObject.tag != team)
 			{
 				//hit particles
 				GameObject particles = (GameObject)Instantiate(hitParticles, hit.point, Quaternion.identity);
