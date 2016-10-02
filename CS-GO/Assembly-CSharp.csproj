@@ -45,10 +45,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Bullet.cs" />
-     <Compile Include="Assets\Health.cs" />
-     <Compile Include="Assets\HostGame.cs" />
-     <Compile Include="Assets\Network.cs" />
      <Compile Include="Assets\Photon\Photon Unity Networking\Demos\Demo2DJumpAndRunWithPhysics\Scripts\Demo2DJumpAndRun.cs" />
      <Compile Include="Assets\Photon\Photon Unity Networking\Demos\Demo2DJumpAndRunWithPhysics\Scripts\JumpAndRunMovement.cs" />
      <Compile Include="Assets\Photon\Photon Unity Networking\Demos\DemoBoxes\ColorPerPlayer.cs" />
@@ -188,7 +184,12 @@
      <Compile Include="Assets\Photon\PhotonChatApi\ChatUserStatus.cs" />
      <Compile Include="Assets\Photon\PhotonChatApi\IChatClientListener.cs" />
      <Compile Include="Assets\Photon\Plugins\WebSocket\WebSocket.cs" />
-     <Compile Include="Assets\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Bullet.cs" />
+     <Compile Include="Assets\Scripts\Health.cs" />
+     <Compile Include="Assets\Scripts\Log.cs" />
+     <Compile Include="Assets\Scripts\Network.cs" />
+     <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Useless\HostGame.cs" />
      <None Include="Assets\Photon\Photon Unity Networking\Demos\MarcoPolo-Tutorial\marcopolo-readme.txt" />
      <None Include="Assets\Photon\Photon Unity Networking\link.xml" />
      <None Include="Assets\Photon\Plugins\Photon3Unity3D.xml" />
