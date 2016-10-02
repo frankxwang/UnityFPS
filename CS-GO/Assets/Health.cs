@@ -6,10 +6,8 @@ public class Health : Photon.MonoBehaviour
 	public int currentHealth = maxHealth;
 	public Texture t;
 	public Texture cross;
-	private GameObject[] spawn;
-	public void Start(){
-		spawn = GameObject.FindGameObjectsWithTag(gameObject.tag + "Spawn");
-	}
+	public GameObject[] spawn;
+	public string team;
 	[PunRPC]
 	public void TakeDamage(int amount)
 	{
@@ -28,10 +26,10 @@ public class Health : Photon.MonoBehaviour
 		GUI.Box (new Rect(0, 0, 200, 20), t);
 		GUI.Box (new Rect(0, 0, currentHealth/maxHealth * 200, 20), t);
 		GUI.Box (new Rect(0, 20, 200, 20), "Health: " + currentHealth);
-		GUI.Box (new Rect(0, 40, 200, 20), "Team: " + gameObject.tag);
+		GUI.Box (new Rect(0, 40, 200, 20), "Team: " + team);
 	}
 	[PunRPC]
-	void RpcRespawn()
+	public void RpcRespawn()
 	{
 		if(photonView.isMine){
 			transform.position = spawn[Random.Range(0, spawn.Length)].transform.position;
