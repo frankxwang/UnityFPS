@@ -63,18 +63,18 @@ public class Network : Photon.MonoBehaviour {
 //			}
 //		}
 		//choose which team based on r.length and b.length
-		if (r > b) {
-			PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
-		} else if (r == b) {
+//		if (r > b) {
+//			PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
+//		} else if (r == b) {
 			int rand = Random.Range (0, 2);
 			if (rand == 0) {
 				PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
 			} else {
 				PhotonNetwork.player.SetTeam(PunTeams.Team.red);
 			}
-		} else {
-			PhotonNetwork.player.SetTeam(PunTeams.Team.red);
-		}
+//		} else {
+//			PhotonNetwork.player.SetTeam(PunTeams.Team.red);
+//		}
 
 		Health pH = p.GetComponent<Health> ();
 		if(PhotonNetwork.player.GetTeam() == PunTeams.Team.blue){

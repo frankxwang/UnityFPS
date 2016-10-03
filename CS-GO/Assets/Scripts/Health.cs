@@ -8,14 +8,20 @@ public class Health : Photon.MonoBehaviour
 	public Texture cross;
 	public GameObject[] spawn;
 	public string team;
+	private Log log;
+	void Start(){
+		log = FindObjectOfType<Log> ();
+	}
+
 	[PunRPC]
-	public void TakeDamage(int amount)
+	public void TakeDamage(int amount, string name)
 	{
 		currentHealth -= amount;
 		if (currentHealth <= 0)
 		{
 			currentHealth = maxHealth;
 			photonView.RPC("RpcRespawn", PhotonTargets.AllBuffered, null);
+			photonView.RPC ("add", PhotonTargets.AllBuffered, photonView.name + " was killed by " + name);
 		}
 	}
 	public void OnGUI(){
@@ -52,5 +58,9 @@ public class Health : Photon.MonoBehaviour
 	public void BlueColor()
 	{
 		transform.FindChild ("Capsule").GetComponent<Renderer> ().material.color = Color.blue;
+	}
+	[PunRPC]
+	void add(string s) {
+		log.log = log.log + "\n" + s;
 	}
 }

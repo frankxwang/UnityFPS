@@ -81,8 +81,9 @@ public class PlayerController : Photon.MonoBehaviour
 		transform.Rotate(0, Input.GetAxis("Mouse X") * Time.deltaTime*150, 0);
 		cam.transform.Rotate(Input.GetAxis("Mouse Y") * -1 *Time.deltaTime*150, 
 			0, 0);
-		Vector3 move = transform.forward * z * mul + transform.right * x * mul;
-		rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+//		Vector3 move = transform.forward * z * mul + transform.right * x * mul;
+//		rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+		transform.Translate(x*mul/100, 0, z*mul/100);
 		rb.rotation = Quaternion.Euler(0, rb.rotation.eulerAngles.y, 0);
 
 		if (Input.GetMouseButton(0) && rate + lastShot < Time.time)
@@ -134,7 +135,7 @@ public class PlayerController : Photon.MonoBehaviour
 				GameObject particles = (GameObject)Instantiate(hitParticles, hit.point, Quaternion.identity);
 //				particles.GetComponent<ParticleSystem> ().Emit(10);
 				PhotonNetwork.Instantiate (hitParticles.name, hit.point, Quaternion.identity, 0);
-				health.GetComponent<PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, 10);
+				health.GetComponent<PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, 10, photonView.name);
 			}
 		}
 	}
@@ -147,9 +148,5 @@ public class PlayerController : Photon.MonoBehaviour
 			}
 		}	
 		return false;
-	}
-	[PunRPC]
-	void add(string s) {
-		log.log = log.log + "\n" + s;
 	}
 }
