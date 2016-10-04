@@ -10,6 +10,7 @@ public class PlayerController : Photon.MonoBehaviour
 	public Transform bulletSpawn;
 	public float rate = 0.1f;
 	public string team;
+	public bool hasFlag;
 	private float lastShot = 0;
 	private Rigidbody rb;
 	private float lastSynchronizationTime = 0f;
