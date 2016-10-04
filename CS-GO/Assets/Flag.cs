@@ -20,6 +20,9 @@ public class Flag : MonoBehaviour {
 	void Update () {
 		if (player != null) {
 			transform.position = player.transform.position + Vector3.up * 2;
+			if(!player.GetComponent<PlayerController>().hasFlag){
+				player = null;
+			}
 		} else {
 			transform.position = startPos;
 		}

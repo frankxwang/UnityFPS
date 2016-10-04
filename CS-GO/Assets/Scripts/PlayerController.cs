@@ -136,8 +136,9 @@ public class PlayerController : Photon.MonoBehaviour
 				GameObject particles = (GameObject)Instantiate(hitParticles, hit.point, Quaternion.identity);
 //				particles.GetComponent<ParticleSystem> ().Emit(10);
 				PhotonNetwork.Instantiate (hitParticles.name, hit.point, Quaternion.identity, 0);
-				health.GetComponent<PhotonView> ().RPC ("TakeDamage", PhotonTargets.AllBuffered, 10, photonView.name);
+				health.photonView.RPC ("TakeDamage", PhotonTargets.AllBuffered, 10, photonView.name);
 			}
+			health.GetComponent<PlayerController> ().hasFlag = false;
 		}
 	}
 	bool grounded(){
