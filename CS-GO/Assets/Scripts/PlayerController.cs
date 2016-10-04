@@ -138,7 +138,6 @@ public class PlayerController : Photon.MonoBehaviour
 				PhotonNetwork.Instantiate (hitParticles.name, hit.point, Quaternion.identity, 0);
 				health.photonView.RPC ("TakeDamage", PhotonTargets.AllBuffered, 10, photonView.name);
 			}
-			health.photonView.RPC ("removeFlag", PhotonTargets.AllBuffered);
 		}
 	}
 	bool grounded(){

@@ -22,6 +22,7 @@ public class Health : Photon.MonoBehaviour
 			currentHealth = maxHealth;
 			photonView.RPC("RpcRespawn", PhotonTargets.AllBuffered, null);
 			photonView.RPC ("add", PhotonTargets.AllBuffered, photonView.name + " was killed by " + name);
+			photonView.RPC ("removeFlag", PhotonTargets.AllBuffered);
 		}
 	}
 	public void OnGUI(){
