@@ -69,15 +69,15 @@ public class PlayerController : Photon.MonoBehaviour
 		float mul = 1;
 		if (Input.GetKey(KeyCode.LeftShift))
 		{
-			mul = 2;
+			mul = 1.5f;
 		}
 		if (!photonView.isMine)
 		{
 			SmoothMove ();
 			return;
 		}
-		var x = Input.GetAxis("Horizontal") * Time.deltaTime * 600.0f;
-		var z = Input.GetAxis("Vertical") * Time.deltaTime * 600.0f;
+		var x = Input.GetAxis("Horizontal") * Time.deltaTime * 1000.0f;
+		var z = Input.GetAxis("Vertical") * Time.deltaTime * 1000.0f;
 
 		transform.Rotate(0, Input.GetAxis("Mouse X") * Time.deltaTime*150, 0);
 		cam.transform.Rotate(Input.GetAxis("Mouse Y") * -1 *Time.deltaTime*150, 
