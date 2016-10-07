@@ -53,12 +53,12 @@ public class Health : Photon.MonoBehaviour
 	[PunRPC]
 	public void RedColor()
 	{
-		transform.FindChild ("Capsule").GetComponent<Renderer> ().material.color = Color.red;
+		transform.FindChild ("MazeLowMan").FindChild("LowMan").GetComponent<Renderer> ().material.color = Color.red;
 	}
 	[PunRPC]
 	public void BlueColor()
 	{
-		transform.FindChild ("Capsule").GetComponent<Renderer> ().material.color = Color.blue;
+		transform.FindChild ("MazeLowMan").FindChild("LowMan").GetComponent<Renderer> ().material.color = Color.blue;
 	}
 	[PunRPC]
 	void add(string s) {

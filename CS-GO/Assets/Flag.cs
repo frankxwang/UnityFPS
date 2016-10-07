@@ -19,7 +19,7 @@ public class Flag : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (player != null) {
-			transform.position = player.transform.position + Vector3.up * 2;
+			transform.position = player.transform.position + Vector3.up * 4;
 			if(!player.GetComponent<PlayerController>().hasFlag){
 				player = null;
 			}
