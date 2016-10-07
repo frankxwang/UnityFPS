@@ -7,6 +7,7 @@ public class PlayerController : Photon.MonoBehaviour
 	public GameObject smoke;
 	public GameObject hitParticles;
 	public GameObject bulletPrefab;
+	public GameObject bulletHole;
 	public Transform bulletSpawn;
 	public float rate = 0.1f;
 	public string team;
@@ -130,13 +131,20 @@ public class PlayerController : Photon.MonoBehaviour
 		RaycastHit hit;
 		if(Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 999)){
 			var health = hit.transform.gameObject.GetComponent<Health>();
-			if (health  != null && PhotonNetwork.player.GetTeam() != health.photonView.owner.GetTeam())
-			{
+			if (health != null && PhotonNetwork.player.GetTeam () != health.photonView.owner.GetTeam ()) {
 				//hit particles
-				GameObject particles = (GameObject)Instantiate(hitParticles, hit.point, Quaternion.identity);
+				GameObject particles = (GameObject)Instantiate (hitParticles, hit.point, Quaternion.identity);
 //				particles.GetComponent<ParticleSystem> ().Emit(10);
 				PhotonNetwork.Instantiate (hitParticles.name, hit.point, Quaternion.identity, 0);
-				health.photonView.RPC ("TakeDamage", PhotonTargets.AllBuffered, 10, photonView.name);
+				if (hit.collider.GetType () == typeof(SphereCollider)) {
+					health.photonView.RPC ("TakeDamage", PhotonTargets.AllBuffered, Health.maxHealth, photonView.name);
+				} else {
+					health.photonView.RPC ("TakeDamage", PhotonTargets.AllBuffered, 10, photonView.name);
+				}
+			} else {
+				var hitRotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
+				GameObject g = PhotonNetwork.Instantiate (bulletHole.name, hit.point, hitRotation, 0) as GameObject;
+				Destroy (g, 10);
 			}
 		}
 	}
